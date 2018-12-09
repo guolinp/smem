@@ -1,0 +1,22 @@
+# this project contains some wrapper scripts of smem
+  - generate the raw report with `smem`
+  - generate the html report with raw report
+
+# test
+```
+./xsmem ./example/capdata
+```
+
+# report
+## xxx.raw, the raw data
+## xxx.html, chart show
+```
+$ ls report 
+bar_block.html  basic.raw    pie_pss.html  pie_uss.html  system.raw
+bar.html        library.raw  pie_rss.html  raw.html      user.raw
+```
+
+# get the `smem` open source:
+```
+hg clone http://selenic.com/repo/smem
+```

@@ -1,0 +1,13 @@
+<html>
+<head>
+<title>smem raw report</title>
+<style>
+body { margin: 32px; }
+</style>
+</head>
+<body>
+<pre>
+LABEL_SMEM
+</pre>
+</body>
+</html>

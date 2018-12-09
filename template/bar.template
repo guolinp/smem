@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="echarts.min.js"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+option = {
+    title : {
+        text: 'smem report: process uss/pss/rss',
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['USS','PSS','RSS']
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            data : LABEL_xAxis_list
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name : 'USS',
+            type : 'bar',
+            data : LABEL_USS_list
+        },
+        {
+            name : 'PSS',
+            type : 'bar',
+            data : LABEL_PSS_list
+        },
+        {
+            name : 'RSS',
+            type : 'bar',
+            data : LABEL_RSS_list
+        }
+    ]
+};
+;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>

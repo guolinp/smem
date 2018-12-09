@@ -1,0 +1,56 @@
+#!/bin/sh
+
+PROGRAM=$(basename $0)
+BASEDIR=$(dirname $0)
+
+SMEM_APP=$BASEDIR/smem.py
+REPORT_DIR=$BASEDIR/report
+JS_DIR=$BASEDIR/js
+
+SMEM_DATA_FILE=$1
+USER_REPORT_DIR=$2
+
+function usage() #
+{
+    echo ""
+    echo "Usage: $PROGRAM <smem_data_file> [report_dir]"
+    echo "    smem_data_file: the output of 'smemcap' on the board"
+    echo "    report_dir    : the place where reports are saved, default is current dir"
+    exit 1
+}
+
+if [ ! -f "$SMEM_DATA_FILE" ]; then
+    echo "Error: <smem_data_file> is missing"
+    usage
+fi
+
+if [ x"$USER_REPORT_DIR" != "x" ]; then
+    REPORT_DIR=$USER_REPORT_DIR
+fi
+
+# prepare the report dir
+mkdir -p $REPORT_DIR
+if [ ! -d "$REPORT_DIR" ]; then
+    echo "Error: can not use the report dir: $REPORT_DIR"
+    usage
+fi
+
+# clean the existed files
+rm -rf $REPORT_DIR/*
+
+
+# copy js
+cp -rf $JS_DIR/echarts.min.js $REPORT_DIR/
+
+FILE_BASIC=$REPORT_DIR/basic.raw
+FILE_LIBRARY=$REPORT_DIR/library.raw
+FILE_USER=$REPORT_DIR/user.raw
+FILE_SYSTEM=$REPORT_DIR/system.raw
+
+$SMEM_APP -S $SMEM_DATA_FILE -a -s pid -t > $FILE_BASIC
+$SMEM_APP -S $SMEM_DATA_FILE -a -m > $FILE_LIBRARY
+$SMEM_APP -S $SMEM_DATA_FILE -a -u > $FILE_USER
+$SMEM_APP -S $SMEM_DATA_FILE -a -w > $FILE_SYSTEM
+
+
+$BASEDIR/raw2html.py $REPORT_DIR
